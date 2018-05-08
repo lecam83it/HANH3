@@ -1,12 +1,15 @@
 package com.example.pc.hanh3;
 
-public class Song {
+import java.io.Serializable;
+
+public class Song implements Serializable {
     private String Title;
     private int File;
-     public Song(String title , int file){
+    private int Image;
+     public Song(String title , int file, int image){
          Title =title;
          File= file;
-
+         Image = image;
      }
 
     public String getTitle() {
@@ -23,5 +26,13 @@ public class Song {
 
     public void setTitle(String title) {
         Title = title;
+    }
+
+    public int getImage() {
+        return Image;
+    }
+
+    public void setImage(int image) {
+        Image = image;
     }
 }
