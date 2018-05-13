@@ -1,6 +1,7 @@
 package com.example.pc.hanh3;
 
 
+import android.animation.ObjectAnimator;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Handler;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView imgDisc;
     MediaPlayer mediaPlayer;
     int pos = 0;
-    Animation animation;
+    ObjectAnimator anim;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         AnhXa();
         toolbar.setTitle(R.string.app_name);
-        animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.disc_route);
+        KhoiTaoAnim();
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             pos = bundle.getInt("KEY");
@@ -59,6 +61,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void KhoiTaoAnim() {
+        anim = ObjectAnimator.ofFloat(imgDisc, "rotation", 0, 360);
+        anim.setDuration(10000);
+        anim.setRepeatCount(ObjectAnimator.INFINITE);
+        anim.setRepeatMode(ObjectAnimator.RESTART);
+        anim.setInterpolator(new LinearInterpolator());
+    }
+
+
     private void KhoiTaoMediaPlayer() {
         mediaPlayer = MediaPlayer.create(MainActivity.this, arraySong.get(pos).getFile());
         txtTitle.setText(arraySong.get(pos).getTitle());
@@ -67,19 +78,22 @@ public class MainActivity extends AppCompatActivity {
         mediaPlayer.start();
         setTimeTotal();
         UpdateTimeCurrent();
-        imgDisc.startAnimation(animation);
+        anim.start();
     }
 
     private void Controllers() {
         btnPlay.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
                 if(mediaPlayer.isPlaying()){
                     mediaPlayer.pause();
                     btnPlay.setImageResource(R.drawable.icon_play);
+                    anim.pause();
                 } else {
                     mediaPlayer.start();
                     btnPlay.setImageResource(R.drawable.icon_pause);
+                    anim.resume();
                 }
                 setTimeTotal();
                 UpdateTimeCurrent();
@@ -185,24 +199,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d("PAUSE", "onPause: ");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d("STOP", "onSTOP: ");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d("RESTART", "onRestart: ");
     }
 
     @Override

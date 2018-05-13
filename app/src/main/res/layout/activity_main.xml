@@ -19,6 +19,7 @@
        android:layout_width="match_parent"
        android:layout_height="match_parent">
        <ImageButton
+           android:background="#00000000"
            android:id="@+id/btnNext"
            android:layout_width="76dp"
            android:layout_height="76dp"
@@ -28,6 +29,7 @@
            app:srcCompat="@drawable/icon_next" />
 
        <ImageButton
+           android:background="#00000000"
            android:id="@+id/btnPlay"
            android:layout_width="76dp"
            android:layout_height="76dp"
@@ -36,6 +38,7 @@
            app:srcCompat="@drawable/icon_play" />
 
        <ImageButton
+           android:background="#00000000"
            android:id="@+id/btnPrev"
            android:layout_width="76dp"
            android:layout_height="76dp"
